@@ -29,6 +29,9 @@ const orderSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    discount: {
+        type: Number
+    },
     status: {
         type: String,
         enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],

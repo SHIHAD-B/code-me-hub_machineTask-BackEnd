@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,9 +7,9 @@ const express_1 = __importDefault(require("express"));
 const contoller_1 = require("../contoller");
 const router = express_1.default.Router();
 //add products 
-router.post('/addproduct', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/addproduct', async (req, res) => {
     const data = req.body;
-    const productResult = yield (0, contoller_1.addProductController)(data);
+    const productResult = await (0, contoller_1.addProductController)(data);
     if (productResult) {
         res.status(200).json({
             success: true,
@@ -31,10 +22,10 @@ router.post('/addproduct', (req, res) => __awaiter(void 0, void 0, void 0, funct
             error: "failed to add product"
         });
     }
-}));
+});
 //display products 
-router.get('/displayproduct', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const productResult = yield (0, contoller_1.displayProductController)();
+router.get('/displayproduct', async (req, res) => {
+    const productResult = await (0, contoller_1.displayProductController)();
     if (productResult) {
         res.status(200).json({
             success: true,
@@ -47,11 +38,11 @@ router.get('/displayproduct', (req, res) => __awaiter(void 0, void 0, void 0, fu
             error: "failed to display product"
         });
     }
-}));
+});
 //add to cart
-router.post('/addtocart', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/addtocart', async (req, res) => {
     const data = req.body;
-    const cartResult = yield (0, contoller_1.addToCartController)(data);
+    const cartResult = await (0, contoller_1.addToCartController)(data);
     if (cartResult) {
         res.status(200).json({
             success: true,
@@ -64,10 +55,10 @@ router.post('/addtocart', (req, res) => __awaiter(void 0, void 0, void 0, functi
             error: "failed to add product to cart"
         });
     }
-}));
+});
 //display  cart
-router.get('/displaycart', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cartResult = yield (0, contoller_1.displayCartController)();
+router.get('/displaycart', async (req, res) => {
+    const cartResult = await (0, contoller_1.displayCartController)();
     if (cartResult) {
         res.status(200).json({
             success: true,
@@ -80,11 +71,11 @@ router.get('/displaycart', (req, res) => __awaiter(void 0, void 0, void 0, funct
             error: "failed to display  cart"
         });
     }
-}));
+});
 //add order
-router.post('/addorder', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    const cartResult = yield (0, contoller_1.addOrderController)(data);
+router.post('/addorder', async (req, res) => {
+    const data = req.body.code;
+    const cartResult = await (0, contoller_1.addOrderController)(data);
     if (cartResult) {
         res.status(200).json({
             success: true,
@@ -94,13 +85,14 @@ router.post('/addorder', (req, res) => __awaiter(void 0, void 0, void 0, functio
     else {
         res.status(400).json({
             success: false,
-            error: "failed to add order t"
+            error: "failed to add order "
         });
     }
-}));
+});
 //display orders
-router.get('/displayorder', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cartResult = yield (0, contoller_1.displayOrderController)();
+router.get('/displayorder/:id', async (req, res) => {
+    const id = req.params.id;
+    const cartResult = await (0, contoller_1.displayOrderController)(id);
     if (cartResult) {
         res.status(200).json({
             success: true,
@@ -113,11 +105,11 @@ router.get('/displayorder', (req, res) => __awaiter(void 0, void 0, void 0, func
             error: "failed to display  order"
         });
     }
-}));
+});
 //add coupon
-router.post('/addcoupon', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/addcoupon', async (req, res) => {
     const data = req.body;
-    const cartResult = yield (0, contoller_1.addCouponController)(data);
+    const cartResult = await (0, contoller_1.addCouponController)(data);
     if (cartResult) {
         res.status(200).json({
             success: true,
@@ -130,15 +122,15 @@ router.post('/addcoupon', (req, res) => __awaiter(void 0, void 0, void 0, functi
             error: "failed to add coupon t"
         });
     }
-}));
+});
 //check coupon
-router.get('/displaycoupon/:code', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/checkcoupon/:code', async (req, res) => {
     const code = req.params.code;
-    const cartResult = yield (0, contoller_1.checkCouponController)(code);
-    if (cartResult) {
+    const couponResult = await (0, contoller_1.checkCouponController)(code);
+    if (couponResult) {
         res.status(200).json({
             success: true,
-            data: cartResult
+            data: couponResult
         });
     }
     else {
@@ -147,5 +139,57 @@ router.get('/displaycoupon/:code', (req, res) => __awaiter(void 0, void 0, void 
             error: "failed to check  coupon"
         });
     }
-}));
+});
+//like proudct
+router.patch('/likeproduct', async (req, res) => {
+    const id = req.body.id;
+    const like = await (0, contoller_1.likeController)(id);
+    if (like) {
+        res.status(200).json({
+            success: true,
+            data: like
+        });
+    }
+    else {
+        res.status(400).json({
+            success: false,
+            error: "failed to like product"
+        });
+    }
+});
+//cart quantity modifier
+router.patch('/updatecartquantity', async (req, res) => {
+    const id = req.body.id;
+    const value = req.body.value;
+    const like = await (0, contoller_1.cartQuantityController)(value, id);
+    if (like) {
+        res.status(200).json({
+            success: true,
+            data: like
+        });
+    }
+    else {
+        res.status(400).json({
+            success: false,
+            error: "failed to update cart quantity"
+        });
+    }
+});
+//delete from cart
+router.delete('/deletefromcart/:id', async (req, res) => {
+    const id = req.params.id;
+    const like = await (0, contoller_1.deleteFromCartController)(id);
+    if (like) {
+        res.status(200).json({
+            success: true,
+            data: like
+        });
+    }
+    else {
+        res.status(400).json({
+            success: false,
+            error: "failed to delete from cart"
+        });
+    }
+});
 exports.default = router;

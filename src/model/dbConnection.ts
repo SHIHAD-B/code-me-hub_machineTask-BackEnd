@@ -4,8 +4,7 @@ import { DB_URL } from "../config/envConfig";
 export default async () => {
     try {
         await mongoose.connect(String(DB_URL).trim(), {
-            serverSelectionTimeoutMS: 5000, 
-            socketTimeoutMS: 45000, 
+            serverSelectionTimeoutMS: 20000
         });
         
         console.log('🍃🍃🍃server connected to the database 🍃🍃🍃')

@@ -22,3 +22,6 @@ __exportStar(require("./checkCoupons"), exports);
 __exportStar(require("./dispayProducts"), exports);
 __exportStar(require("./displayCart"), exports);
 __exportStar(require("./displayOrder"), exports);
+__exportStar(require("./likeController"), exports);
+__exportStar(require("./cartQuantityController"), exports);
+__exportStar(require("./deletefromCart"), exports);
